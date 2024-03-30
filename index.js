@@ -1,14 +1,14 @@
 function createLinkedList() {
-  let linkedList = {};
+  let linkedList = { head: {} };
   const getLinkedList = () => {
     return linkedList;
   };
 
   const appendNode = (value) => {
-    if (Object.values(linkedList).length === 0) {
-      linkedList = createNode(value);
+    if (Object.values(linkedList.head).length === 0) {
+      Object.assign(linkedList.head, createNode(value));
     } else {
-      let currentNode = linkedList;
+      let currentNode = linkedList.head;
       while (currentNode.next) {
         currentNode = currentNode.next;
       }
@@ -17,18 +17,18 @@ function createLinkedList() {
   };
 
   const prependNode = (value) => {
-    if (Object.values(linkedList).length === 0) {
-      linkedList = createNode(value);
+    if (Object.values(linkedList.head).length === 0) {
+      Object.assign(linkedList.head, createNode(value));
     } else {
-      linkedList = createNode(value, linkedList);
+      linkedList.head = createNode(value, linkedList.head);
     }
   };
 
   const size = () => {
-    if (!linkedList.next) return 0;
+    if (!linkedList.head.next) return 1;
 
     let counter = 1;
-    let currentNode = linkedList;
+    let currentNode = linkedList.head;
     while (currentNode.next) {
       counter++;
       currentNode = currentNode.next;
@@ -37,31 +37,31 @@ function createLinkedList() {
   };
 
   const head = () => {
-    return linkedList;
+    return linkedList.head;
   };
 
   const tail = () => {
-    let currentNode = linkedList;
+    let currentNode = linkedList.head;
     while (currentNode.next) {
       currentNode = currentNode.next;
     }
     return currentNode;
   };
   const at = (index) => {
-    let currentNode = linkedList;
+    let currentNode = linkedList.head;
     while (index > 0) {
       currentNode = currentNode.next;
       index--;
-      if (!currentNode.next) return null;
+      if (!currentNode) return null;
     }
     return currentNode;
   };
 
   const pop = () => {
-    if (!linkedList.next) {
+    if (!linkedList.head.next) {
       linkedList = {};
     } else {
-      let currentNode = linkedList;
+      let currentNode = linkedList.head;
       while (currentNode.next.next) {
         currentNode = currentNode.next;
       }
@@ -70,7 +70,7 @@ function createLinkedList() {
   };
 
   const contains = (value) => {
-    let currentNode = linkedList;
+    let currentNode = linkedList.head;
     while (true) {
       if (currentNode.value === value) return true;
       if (!currentNode.next) break;
@@ -79,7 +79,7 @@ function createLinkedList() {
     return false;
   };
   const find = (value) => {
-    let currentNode = linkedList;
+    let currentNode = linkedList.head;
     let index = 0;
     while (true) {
       if (currentNode.value === value) return index;
@@ -90,8 +90,8 @@ function createLinkedList() {
     return null;
   };
   const toString = () => {
-    let currentNode = linkedList;
-    let returnString = "";
+    let currentNode = linkedList.head;
+    let returnString = "head -> ";
     while (true) {
       returnString = returnString + `( ${currentNode.value} ) -> `;
       if (!currentNode.next) break;
@@ -103,7 +103,7 @@ function createLinkedList() {
     try {
       let currIndex = 0;
       let previousNode = null;
-      let currentNode = linkedList;
+      let currentNode = linkedList.head;
       while (currIndex < index) {
         previousNode = currentNode;
         currentNode = currentNode.next;
@@ -113,7 +113,7 @@ function createLinkedList() {
       if (previousNode) {
         previousNode.next = createNode(value, currentNode);
       } else {
-        linkedList = createNode(value, linkedList);
+        linkedList.head = createNode(value, linkedList.head);
       }
     } catch {
       console.log("Error: Invalid index");
@@ -125,7 +125,7 @@ function createLinkedList() {
     try {
       let currIndex = 0;
       let previousNode = null;
-      let currentNode = linkedList;
+      let currentNode = linkedList.head;
       let afterNode = currentNode.next;
       while (currIndex < index) {
         previousNode = currentNode;
@@ -134,7 +134,7 @@ function createLinkedList() {
         currIndex++;
       }
       if (!previousNode) {
-        if (afterNode) linkedList = afterNode;
+        if (afterNode) linkedList.head = afterNode;
         else linkedList = {};
       } else {
         previousNode.next = afterNode;
@@ -166,13 +166,9 @@ function createNode(value = null, next = null) {
 }
 
 const l = createLinkedList();
-l.appendNode("A"); // 0
-l.appendNode("B"); // 1
-l.appendNode("C"); // 2
-l.appendNode("D"); // 3
-// l.appendNode("E"); // 4
-// l.appendNode("F"); // 5
-// l.appendNode("G"); // 6
-// l.appendNode("H"); // 7
-l.removeAt(1);
-console.log(l.getLinkedList());
+l.appendNode("A");
+l.appendNode("B");
+l.appendNode("C");
+// l.appendNode("D");
+// console.log(l.size());
+console.log(l.toString());
